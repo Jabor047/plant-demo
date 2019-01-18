@@ -1,0 +1,4 @@
+*.tar
+crowdai_train/
+crowdai_test/
+Agrix-app-demo-master/

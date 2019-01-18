@@ -8,7 +8,7 @@ import time
 from keras.models import load_model
 from sklearn.model_selection import train_test_split
 
-import model_defs
+import Pmodel
 from log_config import logger
 import preprocessing
 
@@ -21,7 +21,7 @@ def train(X, Y, iteration, whichOne):
 			model = load_model('saved_models/agrix_alexnet.h5')
 		else:
 			logger.info('Instantiating model for the first time')
-			model = model_defs.alexnet()
+			model = Pmodel.alexnet()
 			
 	elif(whichOne == 'vgg16'):
 		if(os.path.exists('saved_models/agrix_vgg16.h5')):
@@ -29,12 +29,12 @@ def train(X, Y, iteration, whichOne):
 			model = load_model('saved_models/agrix_vgg16.h5')
 		else:
 			logger.info('Instantiating model for the first time')
-			model = model_defs.vgg16()
+			model = Pmodel.vgg16()
 
 
 	# Run model
-	model.fit(XTrain, yTrain, batch_size = 64, epochs = 100, validation_split = 0.33, shuffle = True, verbose = 1)
-	scores = model.evaluate(XTest, yTest, batch_size = 64, verbose = 1)
+	model.fit(XTrain, yTrain, batch_size = 32, epochs = 100, validation_split = 0.33, shuffle = True, verbose = 1)
+	scores = model.evaluate(XTest, yTest, batch_size = 32, verbose = 1)
 	logger.info("VALIDATION SCORE: {}: {}%".format(model.metrics_names[1], scores[1] * 100))
 
 	if(whichOne == 'alexnet'):

@@ -13,7 +13,7 @@ from log_config import logger
 
 def main(setType, nn, a = None, b = None):
 	if(setType == 'train'):
-		folders = glob.glob('data/crowdai_train/crowdai/*') # Get folder names
+		folders = glob.glob('crowdai_train/crowdai/*') # Get folder names
 		parts = [Path(folder).parts[3] for folder in folders]
 		classes = [re.search(r'c_(.*)', part, re.I|re.M).group(1) for part in parts] #Get the classes
 
@@ -72,15 +72,20 @@ def main(setType, nn, a = None, b = None):
 		test_data = dict()
 		test_data['image'] = []
 
-		imgs = glob.glob('data/crowdai_test/test/*.jpg')
+		imgs = glob.glob('crowdai_test/crowdai/*.jpg')
 
 		logger.info('Creating test arrays...')
+
+		if(nn == 'alexnet'):
+			dim = 227
+		elif(nn == 'vgg16'):
+			dim = 224
 
 		for img in imgs:
 			logger.info('Creating data point {} ...'.format(img))
 			
 			rd = cv2.imread(img)
-			arr = cv2.resize(rd, (227, 227))
+			arr = cv2.resize(rd, (dim, dim))
 
 			test_data['image'].append(arr)
 			logger.info('Finished creating data point {} ...'.format(img))
