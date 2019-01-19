@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-from keras.models import Model
-from keras.layers import Flatten,Dense,Dropout,Activation,Input,Conv2D,Maxpooling2D
+from keras.models import Model,Sequential
+from keras.layers import Flatten,Dense,Dropout,Activation,Input,Conv2D,MaxPooling2D
 from keras.losses import categorical_crossentropy
 
 
@@ -59,29 +59,29 @@ def alexnet():
 	return model 
 
 
-def Vgg16():
+def vgg16():
 	model = Sequential()
 
 	#Convolution layer 1
-	model.add(Conv2D(64,(3,3), padding='same',))
+	model.add(Conv2D(64,(3,3), padding='same',data_format='channels_last', input_shape=(224,224,3)))
 	model.add(Activation('relu'))
 	model.add(Conv2D(64,(3,3),padding='same'))
 	model.add(Activation('relu'))
-	model.add(Maxpooling2D(pool_size=(2,2),strides=(2,2)))	
+	model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))	
 
 	#convolution layer 2
 	model.add(Conv2D(128,(3,3), padding='same'))
 	model.add(Activation('relu'))
 	model.add(Conv2D(128,(3,3),padding='same'))
 	model.add(Activation('relu'))
-	model.add(Maxpooling2D(pool_size=(2,2),strides=(2,2)))
+	model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
 
 	#convolution layer 3
 	model.add(Conv2D(256,(3,3), padding='same'))
 	model.add(Activation('relu'))
 	model.add(Conv2D(256, (3,3), padding='same'))
 	model.add(Activation('relu'))
-	model.add(Maxpooling2D(pool_size=(2,2),strides=(2,2)))
+	model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
 
 	#convolution layer 4
 	model.add(Conv2D(512,(3,3), padding='same'))
@@ -90,7 +90,7 @@ def Vgg16():
 	model.add(Activation('relu'))
 	model.add(Conv2D(512,(3,3),padding='same'))
 	model.add(Activation('relu'))
-	model.add(Maxpooling2D(pool_size=(2,2),strides=(2,2)))
+	model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
 
 	#convolution layer 5
 	model.add(Conv2D(512,(3,3),padding='same'))
@@ -99,7 +99,7 @@ def Vgg16():
 	model.add(Activation('relu'))
 	model.add(Conv2D(512,(3,3),padding='same'))
 	model.add(Activation('relu'))
-	model.add(Maxpooling2D(pool_size=(2,2),strides=(2,2)))
+	model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
 
 	model.add(Flatten())
 

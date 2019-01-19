@@ -14,7 +14,7 @@ from log_config import logger
 def main(setType, nn, a = None, b = None):
 	if(setType == 'train'):
 		folders = glob.glob('crowdai_train/crowdai/*') # Get folder names
-		parts = [Path(folder).parts[3] for folder in folders]
+		parts = [Path(folder).parts[2] for folder in folders]
 		classes = [re.search(r'c_(.*)', part, re.I|re.M).group(1) for part in parts] #Get the classes
 
 
@@ -86,6 +86,8 @@ def main(setType, nn, a = None, b = None):
 			
 			rd = cv2.imread(img)
 			arr = cv2.resize(rd, (dim, dim))
+
+			arr = arr.astype('uint64')
 
 			test_data['image'].append(arr)
 			logger.info('Finished creating data point {} ...'.format(img))
