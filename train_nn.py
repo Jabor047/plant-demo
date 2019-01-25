@@ -53,39 +53,51 @@ def train(X, Y, iteration, whichOne):
 if __name__ == '__main__':
 	"""
 	Due to RAM constraints, I'm reading the images in batches of 10 i.e. 10 images per class per iteration.
-
+	
 	If access to GPU or a massive RAM, you can: 
 		1. Set p = None and q = None
 		2. Set p = 0 and q = (n + 1) where the n is the number of pictures to read per iteration
 			Make sure to update p and q by replacing 10 with n
 	"""
 	# Training in batches because of the dataset size
-	p = 0 
-	q = 21
-	iteration = 0
-	top = 125 # The total pics in the class with fewest images + 1
+	# p = 0 
+	# q = 20
+	# iteration = 0
+	# top = 125 # The total pics in the class with fewest images + 1
 
 	theModel = sys.argv[1]
 
-	while (p < top):
-		logger.info('Reading DF...')
-		df = preprocessing.main('train', theModel, p, q) #Let's do (q - p) pics from all classes per iter
+	df = preprocessing.main('train', theModel, None, None) #Read all data
 
-		X = np.array(df['image'].tolist()) # Generate array of arrays for X, and array of vectors for y
-		df['vector_labels'] = pd.get_dummies(df['label']).values.tolist()
-		Y = np.array(df['vector_labels'].tolist())
+	X = np.array(df['image'].tolist()) # Generate array of arrays for X, and array of vectors for y
+	df['vector_labels'] = pd.get_dummies(df['label']).values.tolist()
+	Y = np.array(df['vector_labels'].tolist())
 
-		logger.info('X.shape: {}'.format(X.shape))
-		logger.info('Y.shape: {}'.format(Y.shape))
-		logger.info('Starting training...')
+	logger.info('X.shape: {}'.format(X.shape))
+	logger.info('Y.shape: {}'.format(Y.shape))
+	logger.info('Starting training...')
 
-		train(X,  Y, iteration, theModel)
+	train(X, Y, iteration, theModel)
 
-		if(p is None):
-			break
-		else:
-			p = p + 20
-			q = q + 20 
-			iteration = iteration + 1
+	# while (p < top):
+	# 	logger.info('Reading DF...')
+	# 	df = preprocessing.main('train', theModel, p, q) #Let's do (q - p) pics from all classes per iter
 
-			time.sleep(60)
+	# 	X = np.array(df['image'].tolist()) # Generate array of arrays for X, and array of vectors for y
+	# 	df['vector_labels'] = pd.get_dummies(df['label']).values.tolist()
+	# 	Y = np.array(df['vector_labels'].tolist())
+
+	# 	logger.info('X.shape: {}'.format(X.shape))
+	# 	logger.info('Y.shape: {}'.format(Y.shape))
+	# 	logger.info('Starting training...')
+
+		# train(X,  Y, iteration, theModel)
+
+		# if(p is None):
+		# 	break
+		# else:
+		# 	p = p + 20
+		# 	q = q + 20 
+		# 	iteration = iteration + 1
+
+		# 	time.sleep(60)
